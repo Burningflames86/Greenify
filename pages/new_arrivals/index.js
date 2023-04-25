@@ -1,28 +1,23 @@
-import { collection, query, getDocs, orderBy, where } from "firebase/firestore";
+import { collection, getDocs, orderBy, query, where } from "firebase/firestore";
 import { db } from "@/firebase.config";
 import { useEffect, useState } from "react";
-
 import Link from "next/link";
+import NavBar from "@/Components/NavBar";
+import { Lora } from "next/font/google";
+import { Karla } from "next/font/google";
+const lora = Lora({ subsets: ["latin"] });
+const karla = Karla({ subsets: ["latin"] });
+import Script from "next/script";
 import Head from "next/head";
 
-import NavBar from "@/Components/NavBar";
-import Script from "next/script";
-
-import { Karla } from "next/font/google";
-import { Lora } from "next/font/google";
-
-const karla = Karla({ subsets: ["latin"] });
-const lora = Lora({ subsets: ["latin"] });
-
-export default function NewArrivals() {
-  const [items, setItems] = useState();
-  const [women, setWomen] = useState();
+export default function Home() {
+  const [items, setItems] = useState([]);
+  const [premium, setPremium] = useState([]);
 
   useEffect(() => {
-    const unsub = async () => {
-      const q = query(collection(db, "Selling Objects"), where("Gender", "!=", "Merch") );
-      const querySnapshot = await getDocs(q);
-      const itemsArray = [];
+    const getdata = async () => {
+      const querySnapshot = await getDocs(query(collection(db, "Selling Objects"), where("Gender", "!=" ,"Women")));
+      let itemsArray = [];
       querySnapshot.forEach((doc) => {
         itemsArray.push({
           id: doc.id,
@@ -30,23 +25,21 @@ export default function NewArrivals() {
           Price: doc.data().Price,
           imgURL: doc.data().imgURL,
           Catos: doc.data().Catos,
-          Gender: doc.data().Gender,
+
         });
       });
+      itemsArray = itemsArray.filter(
+        (item) => item.Catos != "PreShirts"
+      );
       setItems(fyShuffle(itemsArray.reverse()));
+
     };
-
-    return unsub;
-  }, [db]);
-
+    getdata();
+  }, []);
 
   useEffect(() => {
-    const unsub = async () => {
-      const q = query(
-        collection(db, "Selling Objects"),
-        where("Gender", "==", "Women")
-      );
-      const querySnapshot = await getDocs(q);
+    const getdata = async () => {
+      const querySnapshot = await getDocs(query(collection(db, "Selling Objects"),where("Gender", "==", "Women")));
       const itemsArray = [];
       querySnapshot.forEach((doc) => {
         itemsArray.push({
@@ -54,100 +47,98 @@ export default function NewArrivals() {
           Name: doc.data().Name,
           Price: doc.data().Price,
           imgURL: doc.data().imgURL,
-          Gender: doc.data().Gender
+          Gender: doc.data().Gender,
+          Catos: doc.data().Catos,
         });
       });
-      console.log(itemsArray);
-      setWomen(itemsArray);
+      setPremium(fyShuffle(itemsArray.reverse()));
     };
+    getdata();
+  }, []);
 
-    return unsub;
-  }, [db]);
+
   function fyShuffle(arr) {
     let i = arr.length;
     while (--i > 0) {
       let randIndex = Math.floor(Math.random() * (i + 1));
       [arr[randIndex], arr[i]] = [arr[i], arr[randIndex]];
     }
-    
-    arr = arr.filter(
-      (item) => item.Gender !== "Women"
-    );
+   
     return arr;
   }
 
   return (
     <>
-      <Head>
+    <Head>
         <title>Greenify-New Arrivals</title>
-      </Head>
+    </Head>
       <Script
         src="https://kit.fontawesome.com/989b026094.js"
         crossOrigin="anonymous"
       ></Script>
+      {/* <Sell/> */}
+      <main className={`${lora.className} bg-[#FEFAE0] pb-1`}>
 
-      <main className=" bg-[#FEFAE0] pb-10">
-        <div className={`${lora.className} -mt-10`}>
-          <NavBar cancoin={true} />
-        </div>
-        <div className=" arrivedcontainer text-green-700 mx-24 mt-12">
-          {items &&
-            items.map(
-              (item) =>
-                item.Catos != "PreShirts" && (
-                  <Link
-                    key={item.id}
-                    href={`/${item.id}`}
-                    style={{
-                      background: `url("${item.imgURL}")`,
-                      backgroundColor: "transparent",
-                      backgroundBlendMode: "multiply",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                    className="w-80 h-96  relative arrival rounded-[34px]"
-                  >
-                    <div className="upping bottom-0 absolute text-sm text-white leading-[0.02em] tracking-[0.02em] px-4 bg-[#0C0B0B3D] rounded-b-[34px] py-8 w-[99.9%] flex justify-between">
-                      <div className={`${karla.className} upping`}>
-                        {item.Name}
-                      </div>
-                      <div className={`${karla.className} upping`}>
-                        {item.Price}
-                      </div>
+        <NavBar/>
+       
+        
+        <div className="flex flex-wrap items-center justify-between align-middle text-green-700 mx-24 gap-4">
+          {items.map(
+            (item, i) =>
+             (
+                <Link
+                  href={`/${item.id}`}
+                  key={item.id}
+                  style={{
+                    background: `url("${item.imgURL}")`,
+                    backgroundColor: "transparent",
+                    backgroundBlendMode: "multiply",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                  className="w-80 h-96 relative arrival rounded-[34px]"
+                >
+                  <div className="upping bottom-0 absolute text-sm text-white leading-[0.02em] tracking-[0.02em] px-4 bg-[#0C0B0B3D] rounded-b-[34px] py-8 w-[99.9%] flex justify-between">
+                    <div className={`${karla.className} upping`}>
+                      {item.Name}
                     </div>
-                  </Link>
-                )
-            )}
-        </div>
-        <div className=" arrivedcontainer text-green-700 mx-24 mt-12">
-          {women &&
-            women.map(
-              (item) =>
-                item.Catos != "PreShirts" && (
-                  <Link
-                    key={item.id}
-                    href={`/${item.id}`}
-                    style={{
-                      background: `url("${item.imgURL}")`,
-                      backgroundColor: "transparent",
-                      backgroundBlendMode: "multiply",
-                      backgroundSize: "cover",
-                      backgroundPosition: "center",
-                    }}
-                    className="w-80 h-96  relative arrival rounded-[34px]"
-                  >
-                    <div className="upping bottom-0 absolute text-sm text-white leading-[0.02em] tracking-[0.02em] px-4 bg-[#0C0B0B3D] rounded-b-[34px] py-8 w-[99.9%] flex justify-between">
-                      <div className={`${karla.className} upping`}>
-                        {item.Name}
-                      </div>
-                      <div className={`${karla.className} upping`}>
-                        {item.Price}
-                      </div>
+                    <div className={`${karla.className} upping`}>
+                      {item.Price}
                     </div>
-                  </Link>
-                )
-            )}
+                  </div>
+                </Link>
+              )
+          )}
         </div>
+        <div className="flex flex-wrap items-center justify-between align-middle text-green-700 mx-24 gap-4">
+          {premium.map(
+            (item, i) =>
+             (
+                <Link
+                  href={`/${item.id}`}
+                  key={item.id}
+                  style={{
+                    background: `url("${item.imgURL}")`,
+                    backgroundColor: "transparent",
+                    backgroundBlendMode: "multiply",
+                    backgroundSize: "cover",
+                    backgroundPosition: "center",
+                  }}
+                  className="w-80 h-96 relative arrival rounded-[34px]"
+                >
+                  <div className="upping bottom-0 absolute text-sm text-white leading-[0.02em] tracking-[0.02em] px-4 bg-[#0C0B0B3D] rounded-b-[34px] py-8 w-[99.9%] flex justify-between">
+                    <div className={`${karla.className} upping`}>
+                      {item.Name}
+                    </div>
+                    <div className={`${karla.className} upping`}>
+                      {item.Price}
+                    </div>
+                  </div>
+                </Link>
+              )
+          )}
+        </div>
+
       </main>
     </>
   );

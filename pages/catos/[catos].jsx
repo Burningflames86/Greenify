@@ -19,45 +19,59 @@ export default function Catos() {
   const [items, setItems] = useState();
   const router = useRouter();
   const cats = router.query;
-  console.log(cats.catos.split("_")[0]);
+
+  // useEffect(() => {
+  //   const unsub = async () => {
+  //     const q = query(
+  //       collection(db, "Selling Objects"),
+  //       where("Catos", "==", cats.catos.split("_")[0])
+  //     );
+  //     const querySnapshot = await getDocs(q);
+  //     const itemsArray = [];
+  //     querySnapshot.forEach((doc) => {
+  //       itemsArray.push({
+  //         id: doc.id,
+  //         Name: doc.data().Name,
+  //         Price: doc.data().Price,
+  //         imgURL: doc.data().imgURL,
+  //         Gender: doc.data().Gender
+  //       });
+  //     });
+  //     setItems(itemsArray);
+  //   };
+
+  //   return unsub;
+  // }, [cats.catos]);
 
   useEffect(() => {
-    const unsub = async () => {
+    if (typeof router.query !== "undefined") {
+      const { catos } = router.query;
       const q = query(
         collection(db, "Selling Objects"),
-        where("Catos", "==", cats.catos.split("_")[0])
+        where("Catos", "==", catos.split("_")[0])
       );
-      const querySnapshot = await getDocs(q);
-      const itemsArray = [];
-      querySnapshot.forEach((doc) => {
-        itemsArray.push({
-          id: doc.id,
-          Name: doc.data().Name,
-          Price: doc.data().Price,
-          imgURL: doc.data().imgURL,
-          Gender: doc.data().Gender
+      const fetchItems = async () => {
+        const querySnapshot = await getDocs(q);
+        const itemsArray = [];
+        querySnapshot.forEach((doc) => {
+          itemsArray.push({
+            id: doc.id,
+            Name: doc.data().Name,
+            Price: doc.data().Price,
+            imgURL: doc.data().imgURL,
+            Gender: doc.data().Gender
+          });
         });
-      });
-      console.log(itemsArray);
-      setItems(itemsArray);
-    };
-
-    return unsub;
-  }, [db]);
-
-  function fyShuffle(arr) {
-    let i = arr.length;
-    while (--i > 0) {
-      let randIndex = Math.floor(Math.random() * (i + 1));
-      [arr[randIndex], arr[i]] = [arr[i], arr[randIndex]];
+        setItems(itemsArray);
+      };
+      fetchItems();
     }
-    return arr;
-  }
+  }, [router.query]);
 
   return (
     <>
       <Head>
-        <title>Greenify-{`${cats.catos.split("_")[0]} ${cats.catos.split("_")[1]}`}</title>
+        <title>Greenify </title>
       </Head>
       <Script
         src="https://kit.fontawesome.com/989b026094.js"

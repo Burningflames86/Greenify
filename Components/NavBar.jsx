@@ -7,14 +7,12 @@ import {
   getDocs,
   query,
   collection,
-  orderBy,
 } from "firebase/firestore";
 import { db } from "@/firebase.config";
 
 import { Karla } from "next/font/google";
 
 const karla = Karla({ subsets: ["latin"] });
-
 
 export default function NavBar(props) {
   const { currentUser } = useAuth();
@@ -26,10 +24,8 @@ export default function NavBar(props) {
 
   useEffect(() => {
     const unsub = async () => {
-      if (!currentUser) {
-        return;
-      }
-      const id = currentUser?.uid;
+      
+      const id = currentUser.uid;
       const docRef = doc(db, "Users", id);
       const docSnap = await getDoc(docRef);
       setpoints(docSnap.data());
@@ -38,10 +34,9 @@ export default function NavBar(props) {
   }, [currentUser]);
 
   useEffect(() => {
-    const unsub = async () => {
-      const q = query(collection(db, "Selling Objects"), orderBy("createdAt"));
-      const querySnapshot = await getDocs(q);
-      const itemsArray = [];
+    const getdata = async () => {
+      const querySnapshot = await getDocs(query(collection(db, "Selling Objects")));
+      let itemsArray = [];
       querySnapshot.forEach((doc) => {
         itemsArray.push({
           id: doc.id,
@@ -49,13 +44,13 @@ export default function NavBar(props) {
           Price: doc.data().Price,
           imgURL: doc.data().imgURL,
           Catos: doc.data().Catos,
-          Gender: doc.data().Gender,
+
         });
       });
-      setItems(itemsArray);
-    };
+      setItems(itemsArray.reverse());
 
-    return unsub;
+    };
+    getdata();
   }, [db]);
 
   function handleScroll() {
@@ -68,13 +63,13 @@ export default function NavBar(props) {
 
   const handleCategoryChange = (e) => {
     const searchString = e.target.value.toLowerCase();
-    if(searchString.length >= 3){
-    setRequiredItems(
-      items.filter((item) => item.Name.toLowerCase().includes(searchString))
-    );}else{
+    if (searchString.length >= 3) {
+      setRequiredItems(
+        items.filter((item) => item.Name.toLowerCase().includes(searchString))
+      );
+    } else {
       setRequiredItems([]);
     }
-    console.log(requiredItems);
   };
 
   return (
@@ -87,6 +82,7 @@ export default function NavBar(props) {
         >
           <img
             className="h-12 w-12"
+            alt="hello"
             src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/logo.png?alt=media&token=1f1427d8-430f-4e72-9e81-ca08dd28de5b"
           />{" "}
           <span>reenify</span>
@@ -97,21 +93,30 @@ export default function NavBar(props) {
             className={`w-[500px] h-[56px] bg-[#DDA15E] outline-none placeholder-white ${karla.className} `}
             onChange={handleCategoryChange}
           />
-          {requiredItems && requiredItems.length>1 && (
-            <div className={`absolute top-[${props.upping ? "9" : "4"}rem]  left-[${props.upping ? "23" : "29"}rem] z-10 text-sm h-[19rem] overflow-y-scroll ${karla.className} font-semibold search`}>
-             
-              {requiredItems.map(
-                (item, i) =>
-                   (
-                    <Link href={`/${item.id}`} key={item.id}>
-                    <div className={`bg-white border-b-2  ${i === 0 ? "rounded-t-xl" : ""} border-black items-center gap-3 px-[2rem] flex text-black py-5`}>
-                    <div className="w-16 h-16 "><img src={item.imgURL} className="w-full h-full"/></div>
-                    <div>{item.Name}</div>
+          {requiredItems && requiredItems.length > 1 && (
+            <div
+              className={`absolute top-[${
+                props.upping ? "9" : "4"
+              }rem]  left-[${
+                props.upping ? "23" : "29"
+              }rem] z-10 text-sm h-[19rem] overflow-y-scroll ${
+                karla.className
+              } font-semibold search`}
+            >
+              {requiredItems.map((item, i) => (
+                <Link href={`/${item.id}`} key={item.id}>
+                  <div
+                    className={`bg-white border-b-2  ${
+                      i === 0 ? "rounded-t-xl" : ""
+                    } border-black items-center gap-3 px-[2rem] flex text-black py-5`}
+                  >
+                    <div className="w-16 h-16 ">
+                      <img alt="Hello" src={item.imgURL} className="w-full h-full" />
                     </div>
-                    </Link>
-                  )
-              )}
-              
+                    <div>{item.Name}</div>
+                  </div>
+                </Link>
+              ))}
             </div>
           )}
         </div>
@@ -133,6 +138,7 @@ export default function NavBar(props) {
                 {" "}
                 <img
                   className="h-6 w-6 rounded-full"
+                  alt="hello"
                   src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/coin.png?alt=media&token=75d68cb1-314e-4cac-a462-369f306dce82"
                 />{" "}
                 {points.points}{" "}
@@ -153,6 +159,8 @@ export default function NavBar(props) {
             )}{" "}
             {currentUser && (
               <img
+                className="rounded-full"
+                alt="hello"
                 src={currentUser.photoURL}
                 width="50"
                 height="50"

@@ -59,7 +59,7 @@ export default function Dashboard({ item, quote }) {
   };
 
   const handleSubmit = async (e) => {
-    const id = currentUser.uid;
+    const id = currentUser?.uid;
 
     e.preventDefault();
     console.log("submit");
@@ -67,7 +67,7 @@ export default function Dashboard({ item, quote }) {
       Name: Name,
       Desc: Desc,
       imgURL: imgURL,
-      name: currentUser.displayName,
+      name: currentUser?.displayName,
     };
     const realdata = {
       points: data.points + 10,
@@ -81,6 +81,9 @@ export default function Dashboard({ item, quote }) {
   };
 
   useEffect(() => {
+    if(!currentUser) {
+      return
+    }
     const unsub = async () => {
       const id = currentUser.uid;
       const docRef = doc(db, "Users", id);
@@ -88,12 +91,13 @@ export default function Dashboard({ item, quote }) {
       setData(docSnap.data());
     };
     return unsub;
-  }, [db, currentUser]);
+  }, [currentUser]);
 
   const logoutHandler = async (e) => {
     e.preventDefault();
-    router.push('/')
     await logout();
+    router.push('/')
+
   };
 
   return (
@@ -109,15 +113,16 @@ export default function Dashboard({ item, quote }) {
           <div className="rounded-full border-[5px] border-lime-950 w-[30rem]">
             {" "}
             <img
-              className="w-full h-full"
+            alt="he"
+              className="w-full h-full rounded-full"
               src={currentUser.photoURL}
               referrerPolicy="no-referrer"
             />{" "}
           </div>
           <div className="self-end w-[95%]">
           <div className="flex items-baseline pr-10 justify-between">
-            <div className="text-5xl font-bold">{currentUser.displayName}</div>
-            <div className="flex font-bold text-lime-900 items-center gap-1"> <img className="h-6 w-6 rounded-full" src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/coin.png?alt=media&token=75d68cb1-314e-4cac-a462-369f306dce82" /> {item.points} </div>
+           {currentUser && <div className="text-5xl font-bold">{currentUser.displayName}</div>}
+            <div className="flex font-bold text-lime-900 items-center gap-1"> <img alt="h" className="h-6 w-6 rounded-full" src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/coin.png?alt=media&token=75d68cb1-314e-4cac-a462-369f306dce82" /> {item.points} </div>
         </div>
         <div className="my-5">Your Contribution: <strong> {item.sold.length} item</strong></div>
             <div className=""> <strong>FOTD: </strong> {quote}</div>
@@ -158,11 +163,11 @@ export default function Dashboard({ item, quote }) {
         </div>
         <div className="mt-4">
           <div className="text-3xl font-bold">Your Name</div>
-          <input
+          {currentUser && <input
             type="text"
             className="border-2 w-full px-3 h-10 border-black rounded-lg bg-[#fae76e]"
             value={currentUser.displayName}
-          />
+          />}
         </div>
         <div>
           <div className="text-3xl font-bold pt-5">Image</div>

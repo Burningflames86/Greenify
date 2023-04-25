@@ -31,9 +31,12 @@ export default function Things({ item }) {
   const [more, setMore] = useState();
   const warn = useRef();
   const done = useRef();
-  const id = currentUser.uid;
+  const id = currentUser?.uid;
 
   useEffect(() => {
+    if(!currentUser){
+      return
+    }
     const unsub = async () => {
       const docRef = doc(db, "Users", id);
       const docSnap = await getDoc(docRef);

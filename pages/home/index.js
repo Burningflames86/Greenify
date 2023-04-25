@@ -43,7 +43,7 @@ export default function Home() {
 
     };
     getdata();
-  }, [db]);
+  }, []);
 
   useEffect(() => {
     const getdata = async () => {
@@ -62,7 +62,7 @@ export default function Home() {
       setPremium(fyShuffle(itemsArray.reverse()));
     };
     getdata();
-  }, [db]);
+  }, []);
 
 
   function fyShuffle(arr) {

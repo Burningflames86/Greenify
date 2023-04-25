@@ -45,17 +45,13 @@ export default function Home() {
     e.preventDefault();
     try {
       await signInWithGoogle();
-      router.push("/home");
       const userRef = doc(db, "Users", currentUser.uid);
-      const userDoc = await getDoc(userRef);
-      if (userDoc.exists()) {
-        console.log("User data already exists in Firestore");
-      } else {
         console.log("Adding user data to Firestore");
-        await setDoc(userRef, { points: 500, sold: [] }, { merge: true });
-      }
+        await setDoc(userRef, { points: 500, sold: [] });
     } catch (error) {
       console.log(error.message);
+      router.push("/home")
+
     }
   };
 
@@ -140,14 +136,54 @@ export default function Home() {
     <>
       <Head>
         <title>Greenify</title>
+        
       </Head>
       <Script
         src="https://kit.fontawesome.com/989b026094.js"
         crossOrigin="anonymous"
       ></Script>
-      <main className={`bg-[#FEFAE0]  text-[#DDA15E] ${syne.className}`}>
-        <div className="w-full h-[100vh] bg-red-900"></div>
-        <div className="mt-10 mx-10 text-center ">
+      <main className={`bg-[#FEFAE0]  text-[#DDA15E] ${syne.className} overflow-x-hidden`}>
+       
+
+        <div className="flex items-center flex-row-reverse justify-end mt-10 mx-20 gap-10">
+          <div className="relative rounded-lg">
+            <img
+            alt="he"
+              className="rounded-lg border-[5px] z-10 border-[#BC6C25]"
+              src="https://i.pinimg.com/originals/94/9c/f7/949cf7a911637b95dc2eacdaf26403f1.jpg"
+              
+            />
+            <img
+            alt="he"
+              className="rounded-lg border-[5px] z-10 border-[#BC6C25] absolute top-52 h-[26rem] w-[17rem] left-44"
+              src="https://i.pinimg.com/originals/79/60/85/79608551d1927d8a8f2d56897ccab18b.jpg"
+              
+            />
+          </div>
+
+
+
+          <div className="w-[95rem] text-5xl leading-[5.9rem]">
+            <p className="">
+              Revamp your wardrobe{" "}
+              <span className="px-2 rounded-full text-black py-1 relative highlight font-bold">
+                sustainably
+              </span>{" "}
+              with our{" "}
+              <span className="px-2 rounded-full text-black py-1 relative highlight font-bold">
+                eco-conscious
+              </span>{" "}
+              brand,{" "}
+              <span className="px-2 rounded-full text-black py-1 relative highlight font-bold">
+                {" "}
+                recycling{" "}
+              </span>{" "}
+              fashion for a better tomorrow.
+            </p>
+          </div>
+        </div>
+
+        <div className="my-24 mb-52 mx-10 text-center ">
           {!currentUser && (
             <button
               className="rounded-full bg-lime-400 border-[1px] border-lime-400 text-black transition-all hover:bg-white hover:border-[20px] hover:text-lg hover:scale-125 font-bold hover:text-black w-32 h-32"
@@ -168,41 +204,8 @@ export default function Home() {
           )}
         </div>
 
-        <div className="flex items-center flex-row-reverse justify-end mt-10 mx-20 gap-10">
-          <div className="relative rounded-lg">
-            <img
-              className="rounded-lg border-[5px] z-10 border-[#BC6C25]"
-              src="https://i.pinimg.com/originals/94/9c/f7/949cf7a911637b95dc2eacdaf26403f1.jpg"
-              alt=""
-            />
-            <img
-              className="rounded-lg border-[5px] z-10 border-[#BC6C25] absolute top-52 h-[26rem] w-[17rem] left-44"
-              src="https://i.pinimg.com/originals/79/60/85/79608551d1927d8a8f2d56897ccab18b.jpg"
-              alt=""
-            />
-          </div>
-          <div className="w-[95rem] text-5xl leading-[5.9rem]">
-            <p className="">
-              Revamp your wardrobe{" "}
-              <span className="px-2 rounded-full text-black py-1 bg-[#BC6C25] font-bold">
-                sustainably
-              </span>{" "}
-              with our{" "}
-              <span className="px-2 rounded-full text-black py-1 bg-[#BC6C25] font-bold">
-                eco-conscious
-              </span>{" "}
-              brand,{" "}
-              <span className="px-2 rounded-full text-black py-1 bg-[#BC6C25] font-bold">
-                {" "}
-                recycling{" "}
-              </span>{" "}
-              fashion for a better tomorrow.
-            </p>
-          </div>
-        </div>
-
         <div
-          className={`flex justify-between ${poppins.className} gap-20 mx-24 rounded-md px-10  mt-48`}
+          className={`flex justify-between ${poppins.className} gap-20 mx-24 rounded-md px-10 `}
         >
           <div className=" flex flex-col gap-5">
             <div
@@ -264,9 +267,10 @@ export default function Home() {
           </h1>
           <div className="flex gap-16 text-center flex-row-reverse">
             <img
+            alt="he"
               className="rounded-lg  h-[30rem] border-[5px]  border-[#BC6C25] "
               src="https://i.pinimg.com/originals/43/88/cc/4388cc4006d275df8a4e5fce258082d8.jpg"
-              alt=""
+              
             />
             <div
               style={{ wordSpacing: "14px" }}
@@ -319,6 +323,7 @@ export default function Home() {
           <div className="flex mx-20 justify-between items-center">
             <div>
               <img
+              alt="he"
                 onMouseEnter={(e) => hoverHandler(e)}
                 src="https://cdn-icons-png.flaticon.com/512/66/66722.png"
                 className="sheep hover:shadow-2xl hover:bg-[#BC6C25] border-[5px] bg-white border-black rounded-full w-44 h-44 p-10"
@@ -327,6 +332,7 @@ export default function Home() {
             <i class="px-3 text-[5rem] text-black fa-solid fa-arrow-right"></i>
             <div>
               <img
+              alt="he"
                 onMouseEnter={(e) => hoverHandler(e)}
                 src="https://cdn.onlinewebfonts.com/svg/img_545915.png"
                 className="pen hover:shadow-2xl hover:bg-[#BC6C25] border-[5px] bg-white border-black rounded-full w-44 h-44 p-10"
@@ -335,6 +341,7 @@ export default function Home() {
             <i class="px-3 text-[5rem] text-black fa-solid fa-arrow-right"></i>
             <div>
               <img
+              alt="he"
                 onMouseEnter={(e) => hoverHandler(e)}
                 src="https://img.freepik.com/free-icon/sewing-machine_318-914678.jpg"
                 className="sew hover:shadow-2xl hover:bg-[#BC6C25] border-[5px] bg-white border-black rounded-full w-44 h-44 p-6"
@@ -352,6 +359,7 @@ export default function Home() {
         <div className="flex mt-16 flex-row-reverse mx-20 justify-between items-center">
           <div>
             <img
+            alt="he"
               onMouseEnter={(e) => hoverHandler(e)}
               src="https://cdn-icons-png.flaticon.com/512/4304/4304156.png"
               className="dye hover:shadow-2xl hover:bg-[#BC6C25] border-[5px] bg-white border-black rounded-full w-44 h-44 p-10"
@@ -360,6 +368,7 @@ export default function Home() {
           <i class="text-black -rotate-180 px-3 text-7xl fa-solid fa-arrow-right"></i>
           <div>
             <img
+            alt="he"
               onMouseEnter={(e) => hoverHandler(e)}
               src="https://www.freeiconspng.com/uploads/heating-icon-4.png"
               className="steam hover:shadow-2xl hover:bg-[#BC6C25] border-[5px] bg-white border-black rounded-full w-44 h-44 p-10"
@@ -368,6 +377,7 @@ export default function Home() {
           <i class="text-black -rotate-180 px-3 text-7xl fa-solid fa-arrow-right"></i>
           <div>
             <img
+            alt="he"
               onMouseEnter={(e) => hoverHandler(e)}
               src="https://cdn-icons-png.flaticon.com/512/17/17311.png"
               className="shirt shadow-2xl border-black hover:bg-green-700 border-[5px] bg-white rounded-full w-44 h-44 p-10"
@@ -393,8 +403,9 @@ export default function Home() {
           </div>
           <div className="h-[38rem]">
             <img
+            alt="he"
               src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/heather-ford-5gkYsrH_ebY-unsplash-removebg-preview.png?alt=media&token=c2577497-518c-4890-80f4-2bd6903da727"
-              alt=""
+              
               className="w-full h-full mix-blend-darken"
             />
           </div>
@@ -413,9 +424,10 @@ export default function Home() {
         >
           <div className="  rounded-full">
             <img
+            alt="he"
               className="w-[90rem] h-80 rounded-full"
               src="https://firebasestorage.googleapis.com/v0/b/greenify-dc70f.appspot.com/o/coin.png?alt=media&token=75d68cb1-314e-4cac-a462-369f306dce82"
-              alt=""
+              
             />
           </div>
           <div
@@ -434,7 +446,7 @@ export default function Home() {
               style={{ wordSpacing: "10px" }}
               className="text-3xl mt-36 absolute text-black leading-[4.6rem] font-semibold tracking-widest"
             >
-              We care about your old used clothes! Bring in your gentaly used
+              We care about your old used clothes! Bring in your gently used
               items, and get greenify tokens in return
             </div>
             <div
@@ -467,15 +479,15 @@ export default function Home() {
                 2PAC
               </h5>
               <p className="text-center text-md px-3 pt-4 text-white">
-                Yo, listen up, let me tell you 'bout Greenify <br />
+                Yo, listen up, let me tell you &apos;bout Greenify <br />
                 <span className="">
                   {" "}
-                  An ecommerce site that's got me feeling fly
+                  An ecommerce site that&apos;s got me feeling fly
                 </span>
                 <br />
                 Selling eco-friendly clothes that make me look good
                 <br />
-                And I know I'm doing my part for the neighborhood
+                And I know I&apos;m doing my part for the neighborhood
                 <br />
               </p>
             </div>
@@ -484,9 +496,10 @@ export default function Home() {
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <img
+              alt="he"
                 className="w-24 h-24 mb-3 rounded-full shadow-lg"
                 src="https://compote.slate.com/images/d9a99820-5841-4b90-bc20-cb3b86af7f65.jpg"
-                alt="Bonnie image"
+                
               />
               <h5 className="mb-1 text-2xl font-semibold text-black">
                 Kendrick Lamar
@@ -497,7 +510,7 @@ export default function Home() {
                 <br />
                 But then I found Greenify, and man, was I stoked
                 <br />
-                Their clothes are sustainable, and that ain't no joke
+                Their clothes are sustainable, and that ain&apos;t no joke
                 <br />
               </p>
             </div>
@@ -506,18 +519,19 @@ export default function Home() {
             <div className="flex justify-end px-4 pt-4"></div>
             <div className="flex flex-col items-center pb-10">
               <img
+              alt="he"
                 className="w-24 h-24 mb-3 rounded-full shadow-lg"
                 src="https://media.allure.com/photos/6425c66408fd6fd7e6b7c91e/1:1/w_1914,h_1914,c_limit/ice%20spice%20iheart%20music%20awards%202023.jpg"
-                alt="Bonnie image"
+               
               />
               <h5 className="mb-1 text-2xl font-semibold text-red-100">
                 Ice Spice
               </h5>
               <p className="text-center px-4 pt-4 text-white">
               From bamboo tees to organic cotton pants <br/>
-Their selection's got me doing a happy dance<br/>
+Their selection&apos;s got me doing a happy dance<br/>
 I can look good and feel good at the same time<br/>
-And I know I'm making a difference with every dime<br/>
+And I know I&apos;m making a difference with every dime<br/>
               </p>
             </div>
           </div>
