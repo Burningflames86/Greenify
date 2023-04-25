@@ -1,0 +1,25 @@
+[debug] [2023-04-17T17:16:11.325Z] ----------------------------------------------------------------------
+[debug] [2023-04-17T17:16:11.345Z] Command:       C:\Program Files\nodejs\node.exe C:\Users\asuss\AppData\Roaming\npm\node_modules\firebase-tools\lib\bin\firebase.js deploy
+[debug] [2023-04-17T17:16:11.350Z] CLI Version:   11.27.0
+[debug] [2023-04-17T17:16:11.350Z] Platform:      win32
+[debug] [2023-04-17T17:16:11.351Z] Node Version:  v18.12.1
+[debug] [2023-04-17T17:16:11.379Z] Time:          Mon Apr 17 2023 22:46:11 GMT+0530 (India Standard Time)
+[debug] [2023-04-17T17:16:11.380Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2023-04-17T17:16:11.932Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2023-04-17T17:16:11.937Z] > authorizing via signed-in user (lalitanautiyal92@gmail.com)
+[debug] [2023-04-17T17:16:11.938Z] [iam] checking project greenify-dc70f for permissions ["firebase.projects.get","firebasehosting.sites.update"]
+[debug] [2023-04-17T17:16:11.953Z] >>> [apiv2][query] POST https://cloudresourcemanager.googleapis.com/v1/projects/greenify-dc70f:testIamPermissions [none]
+[debug] [2023-04-17T17:16:11.954Z] >>> [apiv2][(partial)header] POST https://cloudresourcemanager.googleapis.com/v1/projects/greenify-dc70f:testIamPermissions x-goog-quota-user=projects/greenify-dc70f
+[debug] [2023-04-17T17:16:11.955Z] >>> [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/greenify-dc70f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-04-17T17:16:13.933Z] <<< [apiv2][status] POST https://cloudresourcemanager.googleapis.com/v1/projects/greenify-dc70f:testIamPermissions 200
+[debug] [2023-04-17T17:16:13.934Z] <<< [apiv2][body] POST https://cloudresourcemanager.googleapis.com/v1/projects/greenify-dc70f:testIamPermissions {"permissions":["firebase.projects.get","firebasehosting.sites.update"]}
+[debug] [2023-04-17T17:16:13.938Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/greenify-dc70f [none]
+[debug] [2023-04-17T17:16:14.388Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/greenify-dc70f 200
+[debug] [2023-04-17T17:16:14.389Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/greenify-dc70f {"projectId":"greenify-dc70f","projectNumber":"1009696340360","displayName":"Greenify","name":"projects/greenify-dc70f","resources":{"hostingSite":"greenify-dc70f","storageBucket":"greenify-dc70f.appspot.com","locationId":"asia-south1"},"state":"ACTIVE","etag":"1_6e06b244-ea9a-4e8e-9587-b4215320eddd"}
+[debug] [2023-04-17T17:16:37.783Z] >>> [apiv2][query] GET https://firebasehosting.googleapis.com/v1beta1/projects/greenify-dc70f/sites pageToken=&pageSize=10
+[debug] [2023-04-17T17:16:39.767Z] <<< [apiv2][status] GET https://firebasehosting.googleapis.com/v1beta1/projects/greenify-dc70f/sites 200
+[debug] [2023-04-17T17:16:39.768Z] <<< [apiv2][body] GET https://firebasehosting.googleapis.com/v1beta1/projects/greenify-dc70f/sites {"sites":[{"name":"projects/greenify-dc70f/sites/greenify-dc70f","defaultUrl":"https://greenify-dc70f.web.app","appId":"1:1009696340360:web:0c402254318638da44e23d","type":"DEFAULT_SITE"}]}
+[debug] [2023-04-17T17:16:39.769Z] >>> [apiv2][query] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1009696340360:web:0c402254318638da44e23d/config [none]
+[debug] [2023-04-17T17:16:41.341Z] <<< [apiv2][status] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1009696340360:web:0c402254318638da44e23d/config 200
+[debug] [2023-04-17T17:16:41.342Z] <<< [apiv2][body] GET https://firebase.googleapis.com/v1beta1/projects/-/webApps/1:1009696340360:web:0c402254318638da44e23d/config {"projectId":"greenify-dc70f","appId":"1:1009696340360:web:0c402254318638da44e23d","storageBucket":"greenify-dc70f.appspot.com","locationId":"asia-south1","apiKey":"AIzaSyB9rxoBfs51ZP2COwyCxH6qFwqr3grvKsE","authDomain":"greenify-dc70f.firebaseapp.com","messagingSenderId":"1009696340360"}
